@@ -1,0 +1,9 @@
+n_faktorial = 1
+first = 1
+n = 1
+temp = float()
+for i in range(1, 10):
+    n_faktorial *= i
+    temp = temp + (n / n_faktorial)
+
+print(f"e = {first + temp}")
