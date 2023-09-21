@@ -1,5 +1,5 @@
 #PROGRAM UNTUK MENGGAMBAR DIAGRAM VENN
-print("\033c")       #To close all
+#print("\033c")       #To close all
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 bg_color = [20, 230, 20]
 dA = 0.4                                                               #MAximum 0.45
-A_color = [230, 20, 20]
+A_color = [100, 20, 100]
 dB = 0.4                                                               #MAximum 0.45
 B_color = [230, 20, 20]
 line_width = round(5)
@@ -19,7 +19,7 @@ intersection = bool(1)
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++        SET THE CONSTANT         +++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-row, col = int(1000), int(1000)
+row, col = int(500), int(1000)
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++           PREPARATION           +++++++++++++++++++++++++
@@ -36,8 +36,10 @@ mins = min(dA, dB)
 if intersection == True:
     x1 = round(col/2 - col*mins/4)
     x2 = round(col/2 + col*mins/2)
-    #x1 = round(col/2 - rA*1.2)
-    #x2 = round(col/2 + rB*1.2)
+
+if intersection == False:
+    x1 = round(col/2 - rA*1.2)
+    x2 = round(col/2 + rB*1.2)
 
 #FUNCTION UNTUK MEMBUAT LINGKARAN
 def lingkaran(Gambar, y1, x1, r, color):
