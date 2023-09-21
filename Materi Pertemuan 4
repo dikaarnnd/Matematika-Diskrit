@@ -1,0 +1,65 @@
+#PROGRAM UNTUK MENGGAMBAR DIAGRAM VENN
+print("\033c")       #To close all
+import numpy as np
+import matplotlib.pyplot as plt
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#+++++++++++++++++++++++             USER ENTRIES            +++++++++++++++++++++++++
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+bg_color = [20, 230, 20]
+dA = 0.4                                                               #MAximum 0.45
+A_color = [230, 20, 20]
+dB = 0.4                                                               #MAximum 0.45
+B_color = [230, 20, 20]
+line_width = round(5)
+line_color = [0, 0, 0]
+intersection = bool(1)
+#intersection = bool(0)
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#+++++++++++++++++++++++++++        SET THE CONSTANT         +++++++++++++++++++++++++
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+row, col = int(1000), int(1000)
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#+++++++++++++++++++++++++++           PREPARATION           +++++++++++++++++++++++++
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#Center of A
+y1 = round(row/2)
+y2 = round(row/2)
+
+#Radii of A and B
+rA = round(dA/2*row)
+rB = round(dB/2*row)
+
+mins = min(dA, dB)
+if intersection == True:
+    x1 = round(col/2 - col*mins/4)
+    x2 = round(col/2 + col*mins/2)
+    #x1 = round(col/2 - rA*1.2)
+    #x2 = round(col/2 + rB*1.2)
+
+#FUNCTION UNTUK MEMBUAT LINGKARAN
+def lingkaran(Gambar, y1, x1, r, color):
+    for i in range(x1 - r, x1 + r):
+        for j in range(y1 - r, y1 + r):
+            if ((i - x1) ** 2 + (j - y1) ** 2) < r ** 2:
+                Gambar[j, i, 0:3] = color
+    return Gambar
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#++++++++++++++++++++++           MAIN PROGRAM          ++++++++++++++++++++++++
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+print('col, row =', col, ',', row)
+Gambar = np.zeros(shape=(row, col, 3), dtype=np.uint8)  # Preparing the black canvas
+Gambar[:, :, :] = bg_color
+
+color = A_color
+temp = lingkaran(Gambar, y1, x1, rA, color)
+
+color = B_color
+hasil = lingkaran(temp, y2, x2, rB, color)
+
+plt.figure()
+plt.imshow(hasil)
+plt.show()
