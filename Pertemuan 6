@@ -1,0 +1,17 @@
+# menghitung pi menggunakan deret Gregory-Leibniz
+
+print("********************Claculating pi using Gregory-Leibniz series.********************")
+
+k = -1
+d = -1
+suku = 0
+pi_s = 0
+
+for i in range(1, 20):
+    k = -1 * k
+    d = d + 2
+    suku = k/d
+    pi_s = pi_s + suku
+    pi = 4 * pi_s
+    print("i =", i, ", pi =", pi, ".")
+===========================================================================================================================
