@@ -1,0 +1,66 @@
+#Sirkit Euler Bentuk Bintang
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from scipy.interpolate import CubicSpline
+import numpy as np
+
+# Deklarasi titik x & y dengan tipe data list
+x = [2, 1.25, 2.75, 1.5, 2.5]
+y = [8, 5.5, 5.5, 1, 1]
+labels = ['A', 'B', 'C', 'D', 'E']
+
+# Daftar edges berdasarkan kondisi yang diberikan
+edges = [('D', 'A'), ('A', 'E'), ('E', 'B'), ('B', 'C'), ('C', 'D')]
+
+# Inisialisasi plot
+fig, ax = plt.subplots()
+
+# Buat plot scatter untuk menampilkan titik-titik
+sc = ax.scatter(x, y, marker='o', s=100)
+
+# Annotasi untuk setiap titik (menampilkan label pada setiap titik)
+texts = [ax.text(x[i], y[i], labels[i], ha='center', va='center') for i in range(len(x))]
+
+# Inisialisasi garis sebagai objek Line2D kosong
+lines = []
+
+
+# Fungsi inisiasi animasi
+def init():
+    return sc, texts, lines
+
+
+# Fungsi update animasi
+def update(frame):
+    # Ambil edges satu per satu hingga frame saat ini
+    connected_nodes = edges[:frame + 1]
+
+    # Membuat garis sedikit-sedikit dengan interpolasi kubik spline
+    for i, edge in enumerate(connected_nodes):
+        start_node, end_node = edge
+        start_index = labels.index(start_node)
+        end_index = labels.index(end_node)
+
+        # Hitung titik interpolasi dengan CubicSpline
+        t = np.linspace(0, 1, 100)
+        cs = CubicSpline([0, 1], np.array([[x[start_index], y[start_index]], [x[end_index], y[end_index]]]), axis=0)
+        interpolated_points = cs(t)
+
+        # Gambar garis penghubung antar plot (edge)
+        line, = ax.plot(interpolated_points[:, 0], interpolated_points[:, 1], 'k-', alpha=1)
+        lines.append(line)
+
+        # Tambahkan marker pada setiap titik pada garis
+        ax.plot(interpolated_points[-1, 0], interpolated_points[-1, 1], marker='o', markersize=8, color='red')
+
+    return sc, texts, lines
+
+
+# Animasi
+ani = animation.FuncAnimation(fig, update, frames=len(edges), init_func=init, blit=False, interval=1000)
+
+# Menampilkan plot
+plt.title('Proyek UAS MATDIS No. 2 - Animasi Edges')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
